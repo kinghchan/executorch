@@ -1,0 +1,104 @@
+# Copyright (c) Meta Platforms, Inc. and affiliates.
+#
+# This source code is licensed under both the MIT license found in the
+# LICENSE-MIT file in the root directory of this source tree and the Apache
+# License, Version 2.0 found in the LICENSE-APACHE file in the root directory
+# of this source tree.
+
+load("@shim//third-party:third_party.bzl", "third_party_library")
+
+oncall("open_source")
+
+third_party_library(
+    name = "boost",
+)
+
+alias(
+    name = "boost_preprocessor",
+    actual = ":boost",
+    visibility = ["PUBLIC"],
+)
+
+alias(
+    name = "boost_container",
+    actual = ":boost",
+    visibility = ["PUBLIC"],
+)
+
+alias(
+    name = "boost_range",
+    actual = ":boost",
+    visibility = ["PUBLIC"],
+)
+
+alias(
+    name = "boost_thread",
+    actual = ":boost",
+    visibility = ["PUBLIC"],
+)
+
+alias(
+    name = "boost_algorithm",
+    actual = ":boost",
+    visibility = ["PUBLIC"],
+)
+
+alias(
+    name = "boost_regex",
+    actual = ":boost",
+    visibility = ["PUBLIC"],
+)
+
+alias(
+    name = "boost_program_options",
+    actual = ":boost",
+    visibility = ["PUBLIC"],
+)
+
+alias(
+    name = "boost_filesystem",
+    actual = ":boost",
+    visibility = ["PUBLIC"],
+)
+
+alias(
+    name = "boost_multi_index",
+    actual = ":boost",
+    visibility = ["PUBLIC"],
+)
+
+alias(
+    name = "boost_context",
+    actual = ":boost",
+    visibility = ["PUBLIC"],
+)
+
+alias(
+    name = "boost_variant",
+    actual = ":boost",
+    visibility = ["PUBLIC"],
+)
+
+alias(
+    name = "boost_lexical_cast",
+    actual = ":boost",
+    visibility = ["PUBLIC"],
+)
+
+alias(
+    name = "boost_random",
+    actual = ":boost",
+    visibility = ["PUBLIC"],
+)
+
+alias(
+    name = "boost_sort",
+    actual = ":boost",
+    visibility = ["PUBLIC"],
+)
+
+alias(
+    name = "boost_interprocess",
+    actual = ":boost",
+    visibility = ["PUBLIC"],
+)

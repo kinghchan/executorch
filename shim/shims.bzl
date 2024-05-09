@@ -17,15 +17,65 @@ def is_select(thing):
 def cpp_library(
         deps = [],
         external_deps = [],
+        exported_deps = [],
+        exported_external_deps = [],
         undefined_symbols = None,
         visibility = ["PUBLIC"],
+        auto_headers = None,
+        arch_preprocessor_flags = None,
+        modular_headers = None,
+        os_deps = [],
+        arch_compiler_flags = None,
+        tags = None,
+        private_linker_flags = None,
+        headers = None,
+        private_headers = None,
         **kwargs):
-    _unused = undefined_symbols  # @unused
-
+    _unused = (undefined_symbols, auto_headers, arch_preprocessor_flags, modular_headers, os_deps, arch_compiler_flags, tags, private_linker_flags)  # @unused
     prelude.cxx_library(
         deps = _maybe_select_map(deps + external_deps_to_targets(external_deps), _fix_deps),
+        exported_deps = _maybe_select_map(exported_deps + external_deps_to_targets(exported_external_deps), _fix_deps),
         visibility = visibility,
         preferred_linkage = "static",
+        exported_headers = headers,
+        headers = private_headers,
+        **kwargs
+    )
+
+def cpp_unittest(
+        deps = [],
+        external_deps = [],
+        visibility = ["PUBLIC"],
+        supports_static_listing = None,
+        allocator = None,
+        owner = None,
+        tags = None,
+        emails = None,
+        extract_helper_lib = None,
+        compiler_specific_flags = None,
+        default_strip_mode = None,
+        **kwargs):
+    _unused = (supports_static_listing, allocator, owner, tags, emails, extract_helper_lib, compiler_specific_flags, default_strip_mode)  # @unused
+    prelude.cxx_test(
+        deps = _maybe_select_map(deps + external_deps_to_targets(external_deps), _fix_deps),
+        visibility = visibility,
+        **kwargs
+    )
+
+def cpp_binary(
+        deps = [],
+        external_deps = [],
+        visibility = ["PUBLIC"],
+        dlopen_enabled = None,
+        compiler_specific_flags = None,
+        os_linker_flags = None,
+        allocator = None,
+        modules = None,
+        **kwargs):
+    _unused = (dlopen_enabled, compiler_specific_flags, os_linker_flags, allocator, modules)  # @unused
+    prelude.cxx_binary(
+        deps = _maybe_select_map(deps + external_deps_to_targets(external_deps), _fix_deps),
+        visibility = visibility,
         **kwargs
     )
 
@@ -231,6 +281,12 @@ def _fix_dep(x: str) -> [
         return "root//" + x.removeprefix("fbcode//common/ocaml/interop/")
     elif x.startswith("fbcode//third-party-buck/platform010/build/supercaml"):
         return "shim//third-party/ocaml" + x.removeprefix("fbcode//third-party-buck/platform010/build/supercaml")
+    elif x.startswith("fbcode//third-party-buck/platform010/build"):
+        return "shim//third-party" + x.removeprefix("fbcode//third-party-buck/platform010/build")
+    elif x.startswith("fbsource//third-party"):
+        return "shim//third-party" + x.removeprefix("fbsource//third-party")
+    elif x.startswith("//folly"):
+        return "root//" + x.removeprefix("//")
     else:
         fail("Dependency is unaccounted for `{}`.\n".format(x) +
              "Did you forget 'oss-disable'?")
@@ -244,7 +300,10 @@ def _fix_dep_in_string(x: str) -> str:
 # 'fbcode//third-party-buck/platform010/build/supercaml:ocaml-dev'
 # (which will then get mapped to `shim//third-party/ocaml:ocaml-dev`).
 def external_dep_to_target(t):
-    return "fbcode//third-party-buck/platform010/build/{}:{}".format(t[0], t[2])
+    if type(t) == type(()):
+        return "fbcode//third-party-buck/platform010/build/{}:{}".format(t[0], t[2])
+    else:
+        return "fbcode//third-party-buck/platform010/build/{}:{}".format(t, t)
 
 def external_deps_to_targets(ts):
     return [external_dep_to_target(t) for t in ts]
