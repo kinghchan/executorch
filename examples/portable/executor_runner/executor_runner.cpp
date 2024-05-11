@@ -29,6 +29,7 @@
 #include <executorch/runtime/executor/program.h>
 #include <executorch/runtime/platform/log.h>
 #include <executorch/runtime/platform/runtime.h>
+#include <executorch/sdk/etdump/etdump_flatcc.h>
 
 static uint8_t method_allocator_pool[4 * 1024U * 1024U]; // 4 MB
 
@@ -143,7 +144,20 @@ int main(int argc, char** argv) {
   // be used by a single thread at at time, but it can be reused.
   //
 
+
+  auto load_start_time = std::chrono::steady_clock::now();
+
+//  torch::executor::ETDumpGen etdump_gen = torch::executor::ETDumpGen();
+
+//  Span<uint8_t> buffer((uint8_t*)debug_buffer, debug_buffer_size);
+//  etdump_gen.set_debug_buffer(buffer);
+//  etdump_gen.set_event_tracer_debug_level(EventTracerDebugLogLevel::kIntermediateOutputs);
+
+  std::cout << "HELLO THERE NEW" << std::endl;
   Result<Method> method = program->load_method(method_name, &memory_manager);
+  auto load_duration = std::chrono::steady_clock::now() - load_start_time;
+  ET_LOG(Info, "Load duration = %f",std::chrono::duration<double, std::milli>(load_duration).count());
+
   ET_CHECK_MSG(
       method.ok(),
       "Loading of method %s failed with status 0x%" PRIx32,
@@ -162,7 +176,11 @@ int main(int argc, char** argv) {
   ET_LOG(Info, "Inputs prepared.");
 
   // Run the model.
+  auto execute_start_time = std::chrono::steady_clock::now();
   Error status = method->execute();
+  auto execute_duration = std::chrono::steady_clock::now() - execute_start_time;
+  ET_LOG(Info, "inference duration = %f",std::chrono::duration<double, std::milli>(execute_duration).count());
+
   ET_CHECK_MSG(
       status == Error::Ok,
       "Execution of method %s failed with status 0x%" PRIx32,

@@ -706,7 +706,11 @@ def _export_llama(modelname, args) -> str:  # noqa: C901
 
     builder_exported_to_edge = _prepare_for_llama_export(
         modelname, args
-    ).export_to_edge(quantizers)
+    )
+    builder_exported_to_edge = builder_exported_to_edge.export_to_edge(quantizers)
+
+    with open("builder_exported_to_edge.txt", "w") as f:
+        f.write(str(builder_exported_to_edge.edge_manager.exported_program().graph))
 
     # to_backend
     partitioners = []
@@ -754,6 +758,7 @@ def _export_llama(modelname, args) -> str:  # noqa: C901
         modelname = f"mps_{modelname}"
 
     if args.coreml:
+        print("---- COREML ----")
         assert (
             args.use_kv_cache is True
         ), "CoreML backend currently only supports static shape and use_kv_cache=True is the only way to support it at the moment"

@@ -7,6 +7,7 @@
  */
 
 #include <executorch/backends/xnnpack/runtime/XNNExecutor.h>
+#include <executorch/sdk/etdump/etdump_flatcc.h>
 
 namespace torch {
 namespace executor {

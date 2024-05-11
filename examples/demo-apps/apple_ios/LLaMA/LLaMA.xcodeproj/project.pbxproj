@@ -561,7 +561,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 39PACY7YRY;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "LLaMA/SupportingFiles/LLaMA-Info.plist";
@@ -599,7 +599,7 @@
 					"-force_load",
 					"$(BUILT_PRODUCTS_DIR)/libmps_backend-Debug-1.a",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.pytorch.executorch.llama;
+				PRODUCT_BUNDLE_IDENTIFIER = org.pytorch.executorch.llamaivan;
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -619,7 +619,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 39PACY7YRY;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "LLaMA/SupportingFiles/LLaMA-Info.plist";
@@ -657,7 +657,7 @@
 					"-force_load",
 					"$(BUILT_PRODUCTS_DIR)/libmps_backend-Release-1.a",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.pytorch.executorch.llama;
+				PRODUCT_BUNDLE_IDENTIFIER = org.pytorch.executorch.llamaivan;
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -673,11 +673,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 39PACY7YRY;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -700,7 +700,7 @@
 					"-force_load",
 					"$(BUILT_PRODUCTS_DIR)/libexecutorch-Debug-1.a",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.pytorch.executorch.llama.LLaMARunner;
+				PRODUCT_BUNDLE_IDENTIFIER = org.pytorch.executorch.llama.LLaMARunnerivan;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -718,11 +718,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 39PACY7YRY;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -745,7 +745,7 @@
 					"-force_load",
 					"$(BUILT_PRODUCTS_DIR)/libexecutorch-Debug-1.a",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.pytorch.executorch.llama.LLaMARunner;
+				PRODUCT_BUNDLE_IDENTIFIER = org.pytorch.executorch.llama.LLaMARunnerivan;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

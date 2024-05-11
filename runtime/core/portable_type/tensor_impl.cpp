@@ -16,6 +16,8 @@
 #include <executorch/runtime/core/portable_type/qint_types.h>
 #include <executorch/runtime/core/portable_type/scalar_type.h>
 #include <executorch/runtime/platform/assert.h>
+#include <iostream>
+#include <format>
 
 namespace torch {
 namespace executor {
@@ -128,6 +130,17 @@ Error TensorImpl::internal_resize_contiguous(ArrayRef<SizesType> new_sizes) {
   // Can only resize a StaticShape Tensor to the same size
   if (shape_dynamism_ == TensorShapeDynamism::STATIC) {
     for (int i = 0; i < new_sizes.size(); i++) {
+      if (new_sizes[i] != sizes_[i]) {
+        std::cout << "Error" << std::endl;
+        for (int i = 0; i < new_sizes.size(); i++) {
+            auto original_size = sizes_[i];
+            auto new_size = new_sizes[i];
+
+            ET_LOG(Info, "sizes_[%d]=%d", i, original_size);
+            ET_LOG(Info, "new_sizes[%d]=%d", i, new_size);
+
+        }
+      }
       ET_CHECK_OR_RETURN_ERROR(
           new_sizes[i] == sizes_[i],
           NotSupported,

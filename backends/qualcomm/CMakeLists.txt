@@ -298,9 +298,11 @@ add_subdirectory(
 install(TARGETS qnn_executorch_backend DESTINATION lib)
 
 # QNN pybind
-if(${CMAKE_SYSTEM_PROCESSOR} MATCHES "x86_64")
+#if(${CMAKE_SYSTEM_PROCESSOR} MATCHES "x86_64")
+
     add_subdirectory(${EXECUTORCH_SOURCE_DIR}/third-party/pybind11
                     ${CMAKE_CURRENT_BINARY_DIR}/pybind11)
+    message(ADDING PyQnnManagerAdaptor)
     add_library(PyQnnManagerAdaptor MODULE)
     add_library(PyQnnWrapperAdaptor MODULE)
     # PyQnnManager containing a pybind type triggers the warning
@@ -339,4 +341,4 @@ if(${CMAKE_SYSTEM_PROCESSOR} MATCHES "x86_64")
         ${QNN_EXECUTORCH_ROOT_DIR}/aot/python
         ${CMAKE_CURRENT_BINARY_DIR}/qnn_executorch/python
     )
-endif()
+#endif()

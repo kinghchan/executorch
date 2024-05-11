@@ -193,8 +193,7 @@ Result<std::string> get_method_name(Program *program) {
     return std::string(methodName.get());
 }
 
-Result<std::vector<Buffer>>
-get_planned_buffers(const std::string& method_name, Program *program) {
+Result<std::vector<Buffer>> get_planned_buffers(const std::string& method_name, Program *program) {
     auto method_meta = program->method_meta(method_name.c_str());
     if (!method_meta.ok()) {
         return Error::InvalidProgram;

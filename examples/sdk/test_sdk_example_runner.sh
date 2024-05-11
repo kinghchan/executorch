@@ -18,8 +18,7 @@ cmake_install_executorch_sdk_lib() {
   echo "Installing libexecutorch.a, libportable_kernels.a, libetdump.a, libbundled_program.a"
   rm -rf cmake-out
 
-  retry cmake -DBUCK2="$BUCK" \
-          -DCMAKE_INSTALL_PREFIX=cmake-out \
+  retry cmake -DCMAKE_INSTALL_PREFIX=cmake-out \
           -DCMAKE_BUILD_TYPE=Release \
           -DEXECUTORCH_BUILD_SDK=ON \
           -DEXECUTORCH_ENABLE_EVENT_TRACER=ON \
@@ -32,8 +31,11 @@ test_cmake_sdk_example_runner() {
   echo "Exporting MobilenetV2"
   ${PYTHON_EXECUTABLE} -m examples.sdk.scripts.export_bundled_program --model_name="mv2"
   local example_dir=examples/sdk
-  local build_dir=cmake-out/${example_dir}
+  SCRIPT_DIR=$(dirname "$0")
+  local build_dir=${SCRIPT_DIR}/cmake-out/${example_dir}
   CMAKE_PREFIX_PATH="${PWD}/cmake-out/lib/cmake/ExecuTorch;${PWD}/cmake-out/third-party/gflags"
+  echo "--- CMAKE_PREFIX_PATH ---"
+  echo $CMAKE_PREFIX_PATH
   rm -rf ${build_dir}
   retry cmake \
         -DCMAKE_PREFIX_PATH="$CMAKE_PREFIX_PATH" \
@@ -51,7 +53,7 @@ test_cmake_sdk_example_runner() {
 
 if [[ -z $PYTHON_EXECUTABLE ]];
 then
-  PYTHON_EXECUTABLE=python3
+  PYTHON_EXECUTABLE=python
 fi
 
 if [[ -z $BUCK ]];
@@ -60,4 +62,5 @@ then
 fi
 
 cmake_install_executorch_sdk_lib
+
 test_cmake_sdk_example_runner

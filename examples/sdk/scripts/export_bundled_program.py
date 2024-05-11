@@ -81,6 +81,7 @@ def export_to_bundled_program(
     # A model could have multiple entry point methods and each of them can have multiple inputs bundled for testing.
     # This example demonstrates a model which has multiple entry point methods, whose name listed in method_names, to which we want
     # to bundle two input test cases (example_inputs is used two times) for each inference method.
+
     program_inputs = {
         m_name: [example_inputs, example_inputs] for m_name in method_names
     }
@@ -95,10 +96,11 @@ def export_to_bundled_program(
         # bundled program by all MethodTestSuites.
         method_test_cases: List[MethodTestCase] = []
         for method_input in method_inputs:
+            wrong_output = tuple(x * 2 for x in method_input)
             method_test_cases.append(
                 MethodTestCase(
                     inputs=method_input,
-                    expected_outputs=model(*method_input),
+                    expected_outputs=model(*wrong_output),
                 )
             )
 

@@ -4,6 +4,11 @@
 # This source code is licensed under the BSD-style license found in the
 # LICENSE file in the root directory of this source tree.
 
+add_compile_options(
+        -Werror
+        -Wno-unused-private-field
+        -Wno-error=unused-private-field) # Explicitly turn off error for this warning
+
 
 # qnn_implementation
 target_sources(qnn_implementation
@@ -49,9 +54,12 @@ target_sources(qnn_profiler
 )
 
 # qnn_device
-set(HOST_ARCHITECTURE
-    ${CMAKE_CURRENT_LIST_DIR}/htpbackend/${CMAKE_SYSTEM_PROCESSOR}
-)
+#set(HOST_ARCHITECTURE
+#    ${CMAKE_CURRENT_LIST_DIR}/htpbackend/${CMAKE_SYSTEM_PROCESSOR}
+#)
+set(HOST_ARCHITECTURE ${CMAKE_CURRENT_LIST_DIR}/htpbackend/x86_64)
+
+
 
 target_sources(qnn_device
     PUBLIC

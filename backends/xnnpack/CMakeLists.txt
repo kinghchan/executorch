@@ -80,6 +80,7 @@ list(TRANSFORM _xnnpack_backend__srcs PREPEND "${EXECUTORCH_ROOT}/")
 add_library(xnnpack_backend STATIC ${_xnnpack_backend__srcs})
 target_link_libraries(xnnpack_backend
                       PRIVATE
+                      etdump
                       ${xnnpack_third_party}
                       executorch
                       xnnpack_schema)

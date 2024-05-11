@@ -46,6 +46,12 @@ project(executorch)
 include(build/Utils.cmake)
 include(CMakeDependentOption)
 
+add_compile_options(
+        -Werror
+        -Wno-unused-private-field
+        -Wno-error=unused-private-field) # Explicitly turn off error for this warning
+
+
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 if(NOT CMAKE_CXX_STANDARD)
@@ -596,5 +602,9 @@ if(EXECUTORCH_BUILD_PYBIND)
           LIBRARY DESTINATION executorch/extension/pybindings)
 endif()
 
+#add_executable(sdk_example_runner examples/sdk/sdk_example_runner/sdk_example_runner.cpp)
+#add_subdirectory(examples/sdk)
+
 # Print all summary
 executorch_print_configuration_summary()
+
