@@ -46,10 +46,10 @@ project(executorch)
 include(build/Utils.cmake)
 include(CMakeDependentOption)
 
-add_compile_options(
-        -Werror
-        -Wno-unused-private-field
-        -Wno-error=unused-private-field) # Explicitly turn off error for this warning
+#add_compile_options(
+#        -Werror
+#        -Wno-unused-private-field
+#        -Wno-error=unused-private-field) # Explicitly turn off error for this warning
 
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)

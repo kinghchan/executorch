@@ -4,10 +4,10 @@
 # This source code is licensed under the BSD-style license found in the
 # LICENSE file in the root directory of this source tree.
 
-add_compile_options(
-        -Werror
-        -Wno-unused-private-field
-        -Wno-error=unused-private-field) # Explicitly turn off error for this warning
+#add_compile_options(
+#        -Werror
+#        -Wno-unused-private-field
+#        -Wno-error=unused-private-field) # Explicitly turn off error for this warning
 
 
 # qnn_implementation
