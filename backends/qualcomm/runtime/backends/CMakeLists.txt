@@ -54,10 +54,10 @@ target_sources(qnn_profiler
 )
 
 # qnn_device
-#set(HOST_ARCHITECTURE
-#    ${CMAKE_CURRENT_LIST_DIR}/htpbackend/${CMAKE_SYSTEM_PROCESSOR}
-#)
-set(HOST_ARCHITECTURE ${CMAKE_CURRENT_LIST_DIR}/htpbackend/x86_64)
+set(HOST_ARCHITECTURE
+    ${CMAKE_CURRENT_LIST_DIR}/htpbackend/${CMAKE_SYSTEM_PROCESSOR}
+)
+#set(HOST_ARCHITECTURE ${CMAKE_CURRENT_LIST_DIR}/htpbackend/x86_64)
 
 
 

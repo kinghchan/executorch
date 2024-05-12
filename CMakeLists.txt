@@ -40,11 +40,15 @@
 # ~~~
 # It should also be cmake-lint clean.
 #
+SET(CMAKE_C_COMPILER "/usr/bin/gcc-9")
+SET(CMAKE_CXX_COMPILER "/usr/bin/g++-9")
 
 cmake_minimum_required(VERSION 3.19)
 project(executorch)
 include(build/Utils.cmake)
 include(CMakeDependentOption)
+
+
 
 #add_compile_options(
 #        -Werror
