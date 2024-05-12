@@ -17,7 +17,10 @@
 #include <executorch/runtime/core/portable_type/scalar_type.h>
 #include <executorch/runtime/platform/assert.h>
 #include <iostream>
-#include <format>
+//#include <format>
+//#include <fmt/core.h>
+//#include <fmt/ranges.h>
+
 
 namespace torch {
 namespace executor {

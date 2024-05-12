@@ -17,10 +17,11 @@
 #if defined(__GNUC__) || defined(__clang__)
 #if defined(__aarch64__)
 #ifndef __ARM_V8_ONLY__
-#define NATIVE_FP16 1
+//#define NATIVE_FP16 0
 #endif // __ARM_V8_ONLY__
 #endif // __aarch64__
 #endif // GNUC or clang
+//#define NATIVE_FP16 0
 
 #if defined(__GNUC__) || defined(__clang__)
 #if defined(__x86_64__) || defined(_M_X64) || defined(__i386) || \
@@ -614,6 +615,9 @@ inline Half operator/(int32_t a, Half b) {
 //// Arithmetic with int64_t
 
 #ifdef NATIVE_FP16
+
+#pragma message ("NATIVE_FP16 is defined???????????????????")
+
 
 inline Half operator+(Half a, int64_t b) {
   return_half(a.y + b);

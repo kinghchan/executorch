@@ -30,6 +30,7 @@
 #include <executorch/runtime/platform/log.h>
 #include <executorch/runtime/platform/runtime.h>
 #include <executorch/sdk/etdump/etdump_flatcc.h>
+#include <chrono>
 
 static uint8_t method_allocator_pool[4 * 1024U * 1024U]; // 4 MB
 

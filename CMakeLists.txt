@@ -40,8 +40,6 @@
 # ~~~
 # It should also be cmake-lint clean.
 #
-SET(CMAKE_C_COMPILER "/usr/bin/gcc-9")
-SET(CMAKE_CXX_COMPILER "/usr/bin/g++-9")
 
 cmake_minimum_required(VERSION 3.19)
 project(executorch)
@@ -59,7 +57,7 @@ include(CMakeDependentOption)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 if(NOT CMAKE_CXX_STANDARD)
-  set(CMAKE_CXX_STANDARD 17)
+  set(CMAKE_CXX_STANDARD 20)
 endif()
 
 if(NOT CMAKE_BUILD_TYPE)
