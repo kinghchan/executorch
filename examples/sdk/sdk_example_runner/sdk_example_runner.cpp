@@ -30,6 +30,10 @@
 #include <executorch/sdk/bundled_program/bundled_program.h>
 #include <executorch/sdk/etdump/etdump_flatcc.h>
 #include <executorch/util/util.h>
+#include "executorch/runtime/backend/interface.h"
+//#include <executorch/backends/xnnpack/runtime/XNNExecutor.h>
+#include <executorch/backends/xnnpack/runtime/XNNHeader.h>
+//#include <executorch/runtime/backend/interface.h>
 
 static uint8_t method_allocator_pool[4 * 1024U * 1024U]; // 4MB
 static constexpr size_t kBundledAllocatorPoolSize = 16 * 1024U;

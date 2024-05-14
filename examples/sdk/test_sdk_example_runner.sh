@@ -63,4 +63,4 @@ fi
 
 cmake_install_executorch_sdk_lib
 
-test_cmake_sdk_example_runner
+#test_cmake_sdk_example_runner

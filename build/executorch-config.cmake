@@ -13,15 +13,16 @@
 cmake_minimum_required(VERSION 3.19)
 
 set(_root "${CMAKE_CURRENT_LIST_DIR}/../..")
+
 set(required_lib_list executorch executorch_no_prim_ops portable_kernels)
 foreach(lib ${required_lib_list})
     set(lib_var "LIB_${lib}")
     add_library(${lib} STATIC IMPORTED)
     find_library(
-        ${lib_var} ${lib} HINTS "${_root}" CMAKE_FIND_ROOT_PATH_BOTH
+            ${lib_var} ${lib} HINTS "${_root}" CMAKE_FIND_ROOT_PATH_BOTH
     )
     set_target_properties(
-        ${lib} PROPERTIES IMPORTED_LOCATION "${${lib_var}}"
+            ${lib} PROPERTIES IMPORTED_LOCATION "${${lib_var}}"
     )
     target_include_directories(${lib} INTERFACE ${_root})
 endforeach()
@@ -35,13 +36,15 @@ else()
 endif()
 
 set(lib_list
-    etdump bundled_program extension_data_loader ${FLATCCRT_LIB} mpsdelegate
-    qnn_executorch_backend portable_ops_lib extension_module xnnpack_backend
-    XNNPACK cpuinfo pthreadpool vulkan_backend optimized_kernels cpublas eigen_blas
-    optimized_ops_lib optimized_native_cpu_ops_lib
-)
+        etdump bundled_program extension_data_loader ${FLATCCRT_LIB} mpsdelegate
+        qnn_executorch_backend extension_module xnnpack_backend
+        XNNPACK cpuinfo pthreadpool vulkan_backend optimized_kernels cpublas eigen_blas
+        optimized_ops_lib optimized_native_cpu_ops_lib
+        )
+
 foreach(lib ${lib_list})
     # Name of the variable which stores result of the find_library search
+    message(STATUS, "${_root}")
     set(lib_var "LIB_${lib}")
     find_library(${lib_var} ${lib} HINTS "${_root}" CMAKE_FIND_ROOT_PATH_BOTH)
     if(NOT ${lib_var})
@@ -57,7 +60,7 @@ foreach(lib ${lib_list})
             add_library(${lib} STATIC IMPORTED)
         endif()
         set_target_properties(
-            ${lib} PROPERTIES IMPORTED_LOCATION "${${lib_var}}"
+                ${lib} PROPERTIES IMPORTED_LOCATION "${${lib_var}}"
         )
         target_include_directories(${lib} INTERFACE ${_root})
     endif()

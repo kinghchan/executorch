@@ -12,6 +12,7 @@
 #include <executorch/runtime/core/evalue.h>
 #include <executorch/runtime/platform/profiler.h>
 #include <memory>
+#include <iostream>
 
 #pragma clang diagnostic ignored "-Wglobal-constructors"
 
@@ -99,7 +100,22 @@ namespace {
 auto cls = XnnpackBackend();
 Backend backend{"XnnpackBackend", &cls};
 static auto success_with_compiler = register_backend(backend);
+struct StaticInitializer {
+    StaticInitializer() {
+        std::cout << "SUCCESSFULLY REGISTERED XNNPACK BACKEND IN ANON NAMESPACE" << std::endl;
+    }
+};
+
+// Creating an instance of StaticInitializer to execute the code at startup
+StaticInitializer staticInitializer;
 } // namespace
 
 } // namespace executor
 } // namespace torch
+
+// Constructor function to ensure initialization
+__attribute__((constructor))
+void ensureInitialization() {
+    // This function will be called before main()
+    // It forces the static initializers to run
+}
