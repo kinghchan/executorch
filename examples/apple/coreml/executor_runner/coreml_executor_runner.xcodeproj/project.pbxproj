@@ -7,6 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C6CBF902BF41BEF00BF362D /* libbundled_program.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C6CBF8F2BF41BEF00BF362D /* libbundled_program.a */; };
+		2C6CBF922BF5512B00BF362D /* libextension_data_loader.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C6CBF912BF5512B00BF362D /* libextension_data_loader.a */; };
+		2C6CBFA02BF5642D00BF362D /* main_sdk.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2C6CBF932BF5579300BF362D /* main_sdk.mm */; };
+		2C6CBFA12BF569CC00BF362D /* libbundled_program.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C6CBF8F2BF41BEF00BF362D /* libbundled_program.a */; };
+		2C6CBFA22BF569CC00BF362D /* libcoremldelegate.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C94D51672ACFCC7100AF47FD /* libcoremldelegate.a */; };
+		2C6CBFA32BF569CC00BF362D /* libetdump.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 38626BAF2B21C98F0059413D /* libetdump.a */; };
+		2C6CBFA42BF569CC00BF362D /* libexecutorch_no_prim_ops.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F24817E62BC65B2000E80D98 /* libexecutorch_no_prim_ops.a */; };
+		2C6CBFA52BF569CC00BF362D /* libexecutorch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C94D515C2ACFCBA000AF47FD /* libexecutorch.a */; };
+		2C6CBFA62BF569CC00BF362D /* libextension_data_loader.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C6CBF912BF5512B00BF362D /* libextension_data_loader.a */; };
+		2C6CBFA72BF569CC00BF362D /* libportable_kernels.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C97BFFA32BC0C17300F55BAC /* libportable_kernels.a */; };
+		2C6CBFA82BF569CC00BF362D /* libportable_ops_lib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C97BFFA52BC0C1F200F55BAC /* libportable_ops_lib.a */; };
+		2C6CBFA92BF569CC00BF362D /* libprotobuf-lite.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C988D69C2B998CD700979CF6 /* libprotobuf-lite.a */; };
+		2C6CBFAB2BF569CD00BF362D /* libflatccrt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C6CBFAA2BF569CD00BF362D /* libflatccrt.a */; };
+		2C6CBFAC2BF569D300BF362D /* CoreML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C94D51632ACFCBC500AF47FD /* CoreML.framework */; };
+		2C6CBFAD2BF569D700BF362D /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C94D51652ACFCBCB00AF47FD /* Accelerate.framework */; };
+		2C6CBFAE2BF56AED00BF362D /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C94D51612ACFCBBA00AF47FD /* libsqlite3.tbd */; };
 		38626BB42B225A560059413D /* libflatccrt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 38626BB32B225A560059413D /* libflatccrt.a */; };
 		38626BB52B225A890059413D /* libetdump.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 38626BAF2B21C98F0059413D /* libetdump.a */; };
 		C94D51592ACF4BFC00AF47FD /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = C94D51582ACF4BFC00AF47FD /* main.mm */; };
@@ -22,6 +38,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		2C6CBF972BF563DB00BF362D /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		C94D514C2ACF4B9300AF47FD /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -34,6 +59,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2C6CBF8F2BF41BEF00BF362D /* libbundled_program.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbundled_program.a; path = libraries/libbundled_program.a; sourceTree = "<group>"; };
+		2C6CBF912BF5512B00BF362D /* libextension_data_loader.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libextension_data_loader.a; path = libraries/libextension_data_loader.a; sourceTree = "<group>"; };
+		2C6CBF932BF5579300BF362D /* main_sdk.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = main_sdk.mm; sourceTree = "<group>"; };
+		2C6CBF992BF563DB00BF362D /* coreml_sdk_runner */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = coreml_sdk_runner; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C6CBFAA2BF569CD00BF362D /* libflatccrt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libflatccrt.a; path = libraries/libflatccrt.a; sourceTree = "<group>"; };
 		38626BAF2B21C98F0059413D /* libetdump.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libetdump.a; path = libraries/libetdump.a; sourceTree = "<group>"; };
 		38626BB32B225A560059413D /* libflatccrt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libflatccrt.a; path = "../../../../third-party/flatcc/lib/libflatccrt.a"; sourceTree = "<group>"; };
 		C94D514E2ACF4B9300AF47FD /* coreml_executor_runner */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = coreml_executor_runner; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -50,6 +80,26 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		2C6CBF962BF563DB00BF362D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C6CBFAE2BF56AED00BF362D /* libsqlite3.tbd in Frameworks */,
+				2C6CBFAD2BF569D700BF362D /* Accelerate.framework in Frameworks */,
+				2C6CBFAC2BF569D300BF362D /* CoreML.framework in Frameworks */,
+				2C6CBFAB2BF569CD00BF362D /* libflatccrt.a in Frameworks */,
+				2C6CBFA12BF569CC00BF362D /* libbundled_program.a in Frameworks */,
+				2C6CBFA22BF569CC00BF362D /* libcoremldelegate.a in Frameworks */,
+				2C6CBFA32BF569CC00BF362D /* libetdump.a in Frameworks */,
+				2C6CBFA42BF569CC00BF362D /* libexecutorch_no_prim_ops.a in Frameworks */,
+				2C6CBFA52BF569CC00BF362D /* libexecutorch.a in Frameworks */,
+				2C6CBFA62BF569CC00BF362D /* libextension_data_loader.a in Frameworks */,
+				2C6CBFA72BF569CC00BF362D /* libportable_kernels.a in Frameworks */,
+				2C6CBFA82BF569CC00BF362D /* libportable_ops_lib.a in Frameworks */,
+				2C6CBFA92BF569CC00BF362D /* libprotobuf-lite.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C94D514B2ACF4B9300AF47FD /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -57,8 +107,10 @@
 				38626BB52B225A890059413D /* libetdump.a in Frameworks */,
 				F24817E72BC65B2000E80D98 /* libexecutorch_no_prim_ops.a in Frameworks */,
 				38626BB42B225A560059413D /* libflatccrt.a in Frameworks */,
+				2C6CBF902BF41BEF00BF362D /* libbundled_program.a in Frameworks */,
 				C94D51682ACFCC7100AF47FD /* libcoremldelegate.a in Frameworks */,
 				C94D51662ACFCBCB00AF47FD /* Accelerate.framework in Frameworks */,
+				2C6CBF922BF5512B00BF362D /* libextension_data_loader.a in Frameworks */,
 				C988D69D2B998CDE00979CF6 /* libprotobuf-lite.a in Frameworks */,
 				C97BFFA62BC0C1F200F55BAC /* libportable_ops_lib.a in Frameworks */,
 				C94D51642ACFCBC500AF47FD /* CoreML.framework in Frameworks */,
@@ -74,6 +126,7 @@
 		C94D51452ACF4B9300AF47FD = {
 			isa = PBXGroup;
 			children = (
+				2C6CBF932BF5579300BF362D /* main_sdk.mm */,
 				C94D51582ACF4BFC00AF47FD /* main.mm */,
 				C94D514F2ACF4B9300AF47FD /* Products */,
 				C94D51602ACFCBBA00AF47FD /* Frameworks */,
@@ -84,6 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				C94D514E2ACF4B9300AF47FD /* coreml_executor_runner */,
+				2C6CBF992BF563DB00BF362D /* coreml_sdk_runner */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -91,10 +145,13 @@
 		C94D51602ACFCBBA00AF47FD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2C6CBFAA2BF569CD00BF362D /* libflatccrt.a */,
 				C988D69C2B998CD700979CF6 /* libprotobuf-lite.a */,
 				38626BB32B225A560059413D /* libflatccrt.a */,
 				38626BAF2B21C98F0059413D /* libetdump.a */,
+				2C6CBF8F2BF41BEF00BF362D /* libbundled_program.a */,
 				C94D51652ACFCBCB00AF47FD /* Accelerate.framework */,
+				2C6CBF912BF5512B00BF362D /* libextension_data_loader.a */,
 				C94D51632ACFCBC500AF47FD /* CoreML.framework */,
 				C94D515C2ACFCBA000AF47FD /* libexecutorch.a */,
 				C94D51612ACFCBBA00AF47FD /* libsqlite3.tbd */,
@@ -109,6 +166,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		2C6CBF982BF563DB00BF362D /* coreml_sdk_runner */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2C6CBF9D2BF563DB00BF362D /* Build configuration list for PBXNativeTarget "coreml_sdk_runner" */;
+			buildPhases = (
+				2C6CBF952BF563DB00BF362D /* Sources */,
+				2C6CBF962BF563DB00BF362D /* Frameworks */,
+				2C6CBF972BF563DB00BF362D /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = coreml_sdk_runner;
+			productName = coreml_sdk_runner;
+			productReference = 2C6CBF992BF563DB00BF362D /* coreml_sdk_runner */;
+			productType = "com.apple.product-type.tool";
+		};
 		C94D514D2ACF4B9300AF47FD /* coreml_executor_runner */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C94D51552ACF4B9300AF47FD /* Build configuration list for PBXNativeTarget "coreml_executor_runner" */;
@@ -133,8 +207,12 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1520;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
+					2C6CBF982BF563DB00BF362D = {
+						CreatedOnToolsVersion = 15.2;
+					};
 					C94D514D2ACF4B9300AF47FD = {
 						CreatedOnToolsVersion = 15.0;
 					};
@@ -154,11 +232,20 @@
 			projectRoot = "";
 			targets = (
 				C94D514D2ACF4B9300AF47FD /* coreml_executor_runner */,
+				2C6CBF982BF563DB00BF362D /* coreml_sdk_runner */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		2C6CBF952BF563DB00BF362D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C6CBFA02BF5642D00BF362D /* main_sdk.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C94D514A2ACF4B9300AF47FD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -170,6 +257,45 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		2C6CBF9E2BF563DB00BF362D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 39PACY7YRY;
+				ENABLE_HARDENED_RUNTIME = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/include";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/libraries",
+					"$(SRCROOT)/libraries",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.2;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		2C6CBF9F2BF563DB00BF362D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 39PACY7YRY;
+				ENABLE_HARDENED_RUNTIME = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/include";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/libraries",
+					"$(SRCROOT)/libraries",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.2;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		C94D51532ACF4B9300AF47FD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -326,6 +452,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		2C6CBF9D2BF563DB00BF362D /* Build configuration list for PBXNativeTarget "coreml_sdk_runner" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2C6CBF9E2BF563DB00BF362D /* Debug */,
+				2C6CBF9F2BF563DB00BF362D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C94D51492ACF4B9300AF47FD /* Build configuration list for PBXProject "coreml_executor_runner" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

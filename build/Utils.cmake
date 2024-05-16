@@ -180,7 +180,9 @@ function(resolve_buck2)
 
   set(resolve_buck2_command
       ${PYTHON_EXECUTABLE} ${executorch_root}/build/resolve_buck.py
-      --cache_dir=${CMAKE_CURRENT_BINARY_DIR}/buck2-bin)
+      --cache_dir=${CMAKE_CURRENT_BINARY_DIR}/buck2-bin
+      --buck2=/tmp/buck2
+    )
 
   if(NOT ${BUCK2} STREQUAL "")
     list(APPEND resolve_buck2_command --buck2=${BUCK2})

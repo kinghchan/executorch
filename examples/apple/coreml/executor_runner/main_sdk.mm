@@ -348,51 +348,195 @@ int main(int argc, char * argv[]) {
         NSURL *model_url = [NSURL fileURLWithPath:@(args.model_path.c_str())];
         ET_CHECK_MSG(model_url != nil, "Model path=%s is invalid", args.model_path.c_str());
         
-        // GET PROGRAM
-        auto data_loader = std::make_unique<DataLoaderImpl>(model_url.path.UTF8String);
-        auto program = ::make_program(data_loader.get());
-        ET_CHECK_MSG(program != nil, "Failed to load program from path=%s", args.model_path.c_str());
+        // IVAN START
+        auto bundled_program_path = args.model_path.c_str();
         
-        ET_LOG(Info, "Loaded Program");
-        auto method_name = get_method_name(program.get());
-        ET_CHECK_MSG(method_name.ok(), "Failed to get method name from program=%p", program.get());
-        
-        auto planned_buffers = get_planned_buffers(method_name.get(), program.get());
-        Buffer method_buffer(kRuntimeMemorySize, 0);
-        MemoryAllocator method_allocator(static_cast<int32_t>(method_buffer.size()), method_buffer.data());
-        auto spans = to_spans(planned_buffers.get());
-        HierarchicalAllocator planned_allocator(Span<Span<uint8_t>>(reinterpret_cast<Span<uint8_t> *>(spans.data()), spans.size()));
-        MemoryManager memory_manager(&method_allocator, &planned_allocator);
-        ET_LOG(Info, "Loaded memory manager");
-        
-        Buffer debug_buffer;
-        auto etdump_gen = ::make_etdump_gen(debug_buffer, args);
-        
-        auto load_start_time = std::chrono::steady_clock::now();
-        auto method = program->load_method(method_name.get().c_str(), &memory_manager, (EventTracer *)etdump_gen.get());
-        auto load_duration = std::chrono::steady_clock::now() - load_start_time;
-        ET_LOG(Info, "Load duration = %f",std::chrono::duration<double, std::milli>(load_duration).count());
-        
-        ET_CHECK_MSG(method_name.ok(), "Failed to load method with name=%s from program=%p", method_name.get().c_str(), program.get());
-        ET_LOG(Info, "Running method = %s", method_name.get().c_str());
-        
-        auto inputs = ::prepare_input_tensors(*method);
+        Result<FileDataLoader> loader = FileDataLoader::from(bundled_program_path);
+        ET_CHECK_MSG(
+            loader.ok(), "FileDataLoader::from() failed: 0x%" PRIx32, loader.error());
+        // Read in the entire file.
+        Result<FreeableBuffer> file_data = loader->Load(0, loader->size().get());
+        ET_CHECK_MSG(
+            file_data.ok(),
+            "Could not load contents of file '%s': 0x%x",
+            bundled_program_path,
+            (unsigned int)file_data.error());
+        const void* program_data;
+        size_t program_data_len;
+        Error status = torch::executor::bundled_program::GetProgramData(
+            const_cast<void*>(file_data->data()),
+            file_data->size(),
+            &program_data,
+            &program_data_len);
+        ET_CHECK_MSG(
+            status == Error::Ok,
+            "GetProgramData() failed on file '%s': 0x%x",
+            bundled_program_path,
+            (unsigned int)status);
+        auto buffer_data_loader =
+            util::BufferDataLoader(program_data, program_data_len);
+        Result<Program> program = Program::load(&buffer_data_loader);
+        if (!program.ok()) {
+          ET_LOG(Error, "Failed to parse model file %s", bundled_program_path);
+          return 1;
+        }
+        ET_LOG(Info, "Model file %s is loaded.", bundled_program_path);
+        const char* method_name = nullptr;
+        {
+          const auto method_name_result = program->get_method_name(0);
+          ET_CHECK_MSG(method_name_result.ok(), "Program has no methods");
+          method_name = *method_name_result;
+        }
+        ET_LOG(Info, "Running method %s", method_name);
+        Result<MethodMeta> method_meta = program->method_meta(method_name);
+        ET_CHECK_MSG(
+            method_meta.ok(),
+            "Failed to get method_meta for %s: 0x%x",
+            method_name,
+            (unsigned int)method_meta.error());
+        MemoryAllocator method_allocator{
+            MemoryAllocator(sizeof(method_allocator_pool), method_allocator_pool)};
+        std::vector<std::unique_ptr<uint8_t[]>> planned_buffers; // Owns the memory
+        std::vector<Span<uint8_t>> planned_spans; // Passed to the allocator
+        size_t num_memory_planned_buffers = method_meta->num_memory_planned_buffers();
+        for (size_t id = 0; id < num_memory_planned_buffers; ++id) {
+          // .get() will always succeed because id < num_memory_planned_buffers.
+          size_t buffer_size =
+              static_cast<size_t>(method_meta->memory_planned_buffer_size(id).get());
+          ET_LOG(Info, "Setting up planned buffer %zu, size %zu.", id, buffer_size);
+          planned_buffers.push_back(std::make_unique<uint8_t[]>(buffer_size));
+          planned_spans.push_back({planned_buffers.back().get(), buffer_size});
+        }
+        HierarchicalAllocator planned_memory(
+            {planned_spans.data(), planned_spans.size()});
+        MemoryManager memory_manager(&method_allocator, &planned_memory);
+        torch::executor::ETDumpGen etdump_gen = torch::executor::ETDumpGen();
+        Result<Method> method =
+            program->load_method(method_name, &memory_manager, &etdump_gen);
+        ET_CHECK_MSG(
+            method.ok(),
+            "Loading of method %s failed with status 0x%" PRIx32,
+            method_name,
+            method.error());
+        ET_LOG(Info, "Method loaded.");
+        void* debug_buffer = malloc(debug_buffer_size);
+        if (dump_intermediate_outputs) {
+            Span<uint8_t> buffer((uint8_t*)debug_buffer, debug_buffer_size);
+            etdump_gen.set_debug_buffer(buffer);
+            etdump_gen.set_event_tracer_debug_level(
+            EventTracerDebugLogLevel::kIntermediateOutputs);
+        } else if (dump_outputs) {
+            Span<uint8_t> buffer((uint8_t*)debug_buffer, debug_buffer_size);
+            etdump_gen.set_debug_buffer(buffer);
+            etdump_gen.set_event_tracer_debug_level(
+            EventTracerDebugLogLevel::kProgramOutputs);
+        }
+        // Use the inputs embedded in the bundled program.
+        status = torch::executor::bundled_program::LoadBundledInput(
+          *method, file_data->data(), testset_idx);
+        ET_CHECK_MSG(
+          status == Error::Ok,
+          "LoadBundledInput failed with status 0x%" PRIx32,
+          status);
+
         ET_LOG(Info, "Inputs prepared.");
-        
-        // Run the model.
-        std::vector<double> durations;
-        Error status = ::execute_method(&method.get(), args.iterations, durations);
-        ET_CHECK_MSG(status == Error::Ok, "Execution of method %s failed with status 0x%" PRIx32, method_name.get().c_str(), status);
+        status = method->execute();
+        ET_CHECK_MSG(
+            status == Error::Ok,
+            "Execution of method %s failed with status 0x%" PRIx32,
+            method_name,
+            status);
         ET_LOG(Info, "Model executed successfully.");
+        if (print_output) {
+          std::vector<EValue> outputs(method->outputs_size());
+          status = method->get_outputs(outputs.data(), outputs.size());
+          ET_CHECK(status == Error::Ok);
+          for (EValue& output : outputs) {
+            // TODO(T159700776): This assumes that all outputs are fp32 tensors. Add
+            // support for other EValues and Tensor dtypes, and print tensors in a
+            // more readable way.
+            auto output_tensor = output.toTensor();
+            auto data_output = output_tensor.const_data_ptr<float>();
+            for (size_t j = 0; j < output_tensor.numel(); ++j) {
+              ET_LOG(Info, "%f", data_output[j]);
+            }
+          }
+        }
+        etdump_result result = etdump_gen.get_etdump_data();
+        if (result.buf != nullptr && result.size > 0) {
+          FILE* f = fopen(etdump_path.c_str(), "w+");
+          fwrite((uint8_t*)result.buf, 1, result.size, f);
+          fclose(f);
+          free(result.buf);
+        }
+        if (output_verification) {
+          // Verify the outputs.
+          status =
+              torch::executor::bundled_program::VerifyResultWithBundledExpectedOutput(
+                  *method,
+                  file_data->data(),
+                  testset_idx,
+                  1e-3, // rtol
+                  1e-5 // atol
+              );
+          ET_CHECK_MSG(
+              status == Error::Ok,
+              "Bundle verification failed with status 0x%" PRIx32,
+              status);
+          ET_LOG(Info, "Model verified successfully.");
+        }
+
+        if (dump_outputs || dump_intermediate_outputs) {
+          FILE* f = fopen(debug_output_path.c_str(), "w+");
+          fwrite((uint8_t*)debug_buffer, 1, debug_buffer_size, f);
+          fclose(f);
+        }
+        free(debug_buffer);
         
-        double mean = ::calculate_mean(durations);
-        ET_LOG(Info, "Inference latency=%.2fms.", mean);
+
+        // GET PROGRAM
+//        auto data_loader = std::make_unique<DataLoaderImpl>(model_url.path.UTF8String);
+//        auto program = ::make_program(data_loader.get());
+//        ET_CHECK_MSG(program != nil, "Failed to load program from path=%s", args.model_path.c_str());
         
-        auto outputs = method_allocator.allocateList<EValue>(method->outputs_size());
-        status = method->get_outputs(outputs, method->outputs_size());
-        ET_CHECK(status == Error::Ok);
-       
-        dump_etdump_gen(etdump_gen.get(), debug_buffer, args);
+//        auto method_name = get_method_name(program.get());
+//        ET_CHECK_MSG(method_name.ok(), "Failed to get method name from program=%p", program.get());
+        
+//        auto planned_buffers = get_planned_buffers(method_name.get(), program.get());
+//        Buffer method_buffer(kRuntimeMemorySize, 0);
+//        MemoryAllocator method_allocator(static_cast<int32_t>(method_buffer.size()), method_buffer.data());
+//        auto spans = to_spans(planned_buffers.get());
+//        HierarchicalAllocator planned_allocator(Span<Span<uint8_t>>(reinterpret_cast<Span<uint8_t> *>(spans.data()), spans.size()));
+//        MemoryManager memory_manager(&method_allocator, &planned_allocator);
+//        
+//        Buffer debug_buffer;
+//        auto etdump_gen = ::make_etdump_gen(debug_buffer, args);
+//        
+//        auto load_start_time = std::chrono::steady_clock::now();
+//        auto method = program->load_method(method_name.get().c_str(), &memory_manager, (EventTracer *)etdump_gen.get());
+//        auto load_duration = std::chrono::steady_clock::now() - load_start_time;
+//        ET_LOG(Info, "Load duration = %f",std::chrono::duration<double, std::milli>(load_duration).count());
+//        
+//        ET_CHECK_MSG(method_name.ok(), "Failed to load method with name=%s from program=%p", method_name.get().c_str(), program.get());
+//        ET_LOG(Info, "Running method = %s", method_name.get().c_str());
+//        
+//        auto inputs = ::prepare_input_tensors(*method);
+//        ET_LOG(Info, "Inputs prepared.");
+//        
+//        // Run the model.
+//        std::vector<double> durations;
+//        status = ::execute_method(&method.get(), args.iterations, durations);
+//        ET_CHECK_MSG(status == Error::Ok, "Execution of method %s failed with status 0x%" PRIx32, method_name.get().c_str(), status);
+//        ET_LOG(Info, "Model executed successfully.");
+//        
+//        double mean = ::calculate_mean(durations);
+//        ET_LOG(Info, "Inference latency=%.2fms.", mean);
+//        
+//        auto outputs = method_allocator.allocateList<EValue>(method->outputs_size());
+//        status = method->get_outputs(outputs, method->outputs_size());
+//        ET_CHECK(status == Error::Ok);
+//       
+//        dump_etdump_gen(etdump_gen.get(), debug_buffer, args);
 //        
         return EXIT_SUCCESS;
     }

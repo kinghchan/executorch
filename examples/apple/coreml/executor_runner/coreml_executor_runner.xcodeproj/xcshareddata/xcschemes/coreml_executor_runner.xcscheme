@@ -53,8 +53,12 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "--model_path /Users/ivan/Dev/llms/neuralise/bria_rmbg/briaai_rmbg_coreml_cpu_gpu.pte"
+            argument = "--model_path /Users/ivan/Dev/llms/neuralise/bria_rmbg/coreml_all_lowered_module_7_2_1.pte"
             isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = ""
+            isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>
    </LaunchAction>

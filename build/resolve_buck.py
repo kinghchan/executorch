@@ -187,7 +187,7 @@ def resolve_buck2(args: argparse.Namespace) -> Union[str, int]:
                 return buck2_local_path
 
             buck2_archive_url = f"https://github.com/facebook/buck2/releases/download/{target_buck_version}/{buck_info.archive_name}"
-
+            print(f"buck2_archive_url: {buck2_archive_url}")
             with tempfile.NamedTemporaryFile() as archive_file:
                 print(f"Downloading buck2 from {buck2_archive_url}...", file=sys.stderr)
                 urllib.request.urlretrieve(buck2_archive_url, archive_file.name)
@@ -202,7 +202,7 @@ def resolve_buck2(args: argparse.Namespace) -> Union[str, int]:
 
                 file_stat = os.stat(buck2_local_path)
                 os.chmod(buck2_local_path, file_stat.st_mode | stat.S_IEXEC)
-
+            print(f"buck2_local_path: {buck2_local_path}")
             return buck2_local_path
 
 

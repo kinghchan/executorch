@@ -41,9 +41,11 @@ cmake "$EXECUTORCH_ROOT_PATH" -B"$CMAKE_BUILD_DIR_PATH" \
 -Dprotobuf_BUILD_TESTS=OFF \
 -Dprotobuf_BUILD_EXAMPLES=OFF \
 -DCMAKE_MACOSX_BUNDLE=OFF \
+-DEXECUTORCH_BUILD_EXTENSION_DATA_LOADER=ON \
 
 cmake --build "$CMAKE_BUILD_DIR_PATH" -j9 -t coremldelegate
-cmake --build "$CMAKE_BUILD_DIR_PATH" -j9 -t etdump -t flatccrt
+cmake --build "$CMAKE_BUILD_DIR_PATH" -j9 -t etdump -t flatccrt -t bundled_program -t extension_data_loader
+
 
 # Copy CoreML delegate headers
 echo "ExecuTorch: Copying headers"
@@ -70,6 +72,8 @@ find "$CMAKE_BUILD_DIR_PATH/" -name 'libcoremldelegate.a' -exec cp -f "{}" "$LIB
 find "$CMAKE_BUILD_DIR_PATH/" -name 'libportable_ops_lib.a' -exec cp -f "{}" "$LIBRARIES_DIR_PATH/libportable_ops_lib.a"  \;
 find "$CMAKE_BUILD_DIR_PATH/" -name 'libportable_kernels.a' -exec cp -f "{}" "$LIBRARIES_DIR_PATH/libportable_kernels.a"  \;
 cp -f "$EXECUTORCH_ROOT_PATH/third-party/flatcc/lib/libflatccrt.a" "$LIBRARIES_DIR_PATH/libflatccrt.a"
+find "$CMAKE_BUILD_DIR_PATH/" -name 'libbundled_program.a' -exec cp -f "{}" "$LIBRARIES_DIR_PATH/libbundled_program.a"  \;
+find "$CMAKE_BUILD_DIR_PATH/" -name 'libextension_data_loader.a' -exec cp -f "{}" "$LIBRARIES_DIR_PATH/libextension_data_loader.a"  \;
 
 # Build the runner
 echo "ExecuTorch: Building runner"
